@@ -1,2 +1,2 @@
 # tesla-api
-A PHP composer package for connecting with your Tesla
+A PHP composer package for connecting with your Tesla.
