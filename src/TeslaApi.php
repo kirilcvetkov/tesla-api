@@ -4,16 +4,18 @@ namespace KirilCvetkov\TeslaApi;
 
 use DOMDocument;
 use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\Cookie\SetCookie;
 
 class TeslaApi
 {
     public function connect(string $username, string $password)
     {
-        $codeVerifier = $this->generateRandomString(86);
-        $codeChallenge = urlencode(base64_encode(hash('sha256', $codeVerifier)));
-        $state = $this->generateRandomString();
+        $sha256Hash = hash('sha256', $this->generateRandomString(86), true);
+        $codeChallenge = rtrim(strtr(base64_encode($sha256Hash), '+/', '-_'), '=');
+        $state = $this->generateRandomString(12);
 
-        $response = (new Client())->request('GET', 'https://auth.tesla.com/oauth2/v3/authorize', [
+        $response = ($client = new Client())->request('GET', 'https://auth.tesla.com/oauth2/v3/authorize', [
             'query' => [
                 'client_id' => 'ownerapi',
                 'code_challenge' => $codeChallenge,
@@ -26,15 +28,17 @@ class TeslaApi
             ],
         ]);
 
+        $headerSetCookies = $response->getHeader('Set-Cookie');
+
         $cookies = [];
+        foreach ($headerSetCookies as $key => $header) {
+            $cookie = SetCookie::fromString($header);
+            $cookie->setDomain('.tesla.com');
 
-        foreach ($response->getHeader('set-cookie') as $cookie) {
-            $cookies[] = substr($cookie, 0, strpos($cookie, ';'));
+            $cookies[] = $cookie;
         }
 
-        if ($response->getStatusCode() !== 200) {
-            return;
-        }
+        $cookieJar = new CookieJar(false, $cookies);
 
         $dom = new DOMDocument();
         $dom->loadHTML((string) $response->getBody());
@@ -42,15 +46,12 @@ class TeslaApi
         $hiddenInputs = [];
 
         foreach ($dom->getElementsByTagName('input') as $input) {
-            if ($input->getAttribute('type') !== 'hidden' || $input->getAttribute('name') === 'cancel') {
-                continue;
-            }
-
             $hiddenInputs[$input->getAttribute('name')] = $input->getAttribute('value');
         }
 
         $response = (new Client())->request('POST', 'https://auth.tesla.com/oauth2/v3/authorize', [
-            'headers' => ['Cookie' => implode('; ', $cookies)],
+            'http_errors' => false,
+            'cookies' => $cookieJar,
             'query' => [
                 'client_id' => 'ownerapi',
                 'code_challenge' => $codeChallenge,
@@ -67,6 +68,8 @@ class TeslaApi
                     'credential' => $password,
                 ],
         ]);
+
+        dd($response->getStatusCode(), (string) $response->getBody(), $response->getHeaders());
     }
 
     public function generateRandomString(int $length = 10)
