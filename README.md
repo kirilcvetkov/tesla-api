@@ -1,6 +1,6 @@
 # 🚘 Tesla API Package
 
-This is (will be) a comprehansive composer package that allows you to access the Tesla API. You'll be able to view products, send commands, get metrics, and more from your Tesla account.
+🚘 This is (will be) a comprehensive composer package that allows you to access your Tesla products through Tesla's API. You'll be able to view products, send commands, get metrics, and more from your Tesla account.
 
 ## Installation
 
