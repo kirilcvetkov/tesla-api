@@ -22,11 +22,10 @@ Which returns rougly the same URL: <a href="https://auth.tesla.com/oauth2/v3/aut
 
 #### Step 2 - swap the Code for a Token
 After using your Tesla credentials, you'll arrive at a "Page Not Found" page, which is to be expected.<br>
-From this URL, copy the `code` parameter, which should look like this: `63729ba81e9d8d8d8421aa27e3138389f0c4cbf8eccf33c55020a851f4a0`<br>
-Then, swap it for a more permanent token:
+From this URL, copy the `code` parameter and swap it for a more permanent token:
 
 ```php
-$code = '63729ba81e9d8d8d8421aa27e3138389f0c4cbf8eccf33c55020a851f4a0';
+$code = '63729ba81e9d8d8a8421aa27e3138389f0c4cbf8eccf33c55020a851f4a0';
 $token = (new Authenticate())->getToken($code);
 ```
 
