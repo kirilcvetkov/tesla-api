@@ -1,6 +1,6 @@
 # Tesla API Package
 
-This is (will be) a comprehansive package to the Tesla API. By granting access, you'll be able to access products, metrics, and more from your Tesla account.
+This is (will be) a comprehansive package to access the Tesla API. You'll be able to access products, metrics, and more from your Tesla account.
 
 ## Installation
 
