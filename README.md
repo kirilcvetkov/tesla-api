@@ -13,17 +13,16 @@ composer require kirilcvetkov/tesla-api
 ## Usage
 
 ### Step 1 - Get the Code
-Generate `code` by authenticating yourself with the Tesla auth service using your Tesla account credentials.
-
+Generate a `code` value by authenticating yourself with the Tesla auth service using your Tesla account credentials.<br>
+You can get the URL using this code snippet:
 ```php
 $url = (new Authenticate())->getLoginUrl();
 ```
+Which returns rougly the same URL: <a href="https://auth.tesla.com/oauth2/v3/authorize?client_id=ownerapi&code_challenge_method=S256&redirect_uri=https%3A%2F%2Fauth.tesla.com%2Fvoid%2Fcallback&locale=en&prompt=login&response_type=code&scope=email&state=123" target="_blank">auth.tesla.com</a>
 
-Which returns rougly the same URL: [https://auth.tesla.com/oauth2/v3/authorize](https://auth.tesla.com/oauth2/v3/authorize?client_id=ownerapi&code_challenge_method=S256&redirect_uri=https%3A%2F%2Fauth.tesla.com%2Fvoid%2Fcallback&locale=en&prompt=login&response_type=code&scope=email&state=123)
-
-### Step 2 - swap code for Token
-After using your Tesla credentials, you'll arrive at a "Page Not Found" page, which is to be expected.
-From this URL, copy the `code` parameter, which should look like this: `63729ba81e9d8d8d8421aa27e3138389f0c4cbf8eccf33c55020a851f4a0`
+### Step 2 - swap the Code for a Token
+After using your Tesla credentials, you'll arrive at a "Page Not Found" page, which is to be expected.<br>
+From this URL, copy the `code` parameter, which should look like this: `63729ba81e9d8d8d8421aa27e3138389f0c4cbf8eccf33c55020a851f4a0`<br>
 Then, swap it for a more permanent token:
 
 ```php
