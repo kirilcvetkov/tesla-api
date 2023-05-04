@@ -40,8 +40,8 @@ class Authenticate
 
     public function generateRandomString(int $length = 10)
     {
-        $x = range(0, 9); // '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-dd($x);
+        $x = implode('', array_merge(range(0, 9), range('a', 'z'), range('A', 'Z')));
+
         return substr(str_shuffle(str_repeat($x, ceil($length / strlen($x)))), 1, $length);
     }
 

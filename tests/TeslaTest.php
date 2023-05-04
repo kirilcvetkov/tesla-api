@@ -13,7 +13,7 @@ final class TeslaTest extends TestCase
     public function testConnect(): void
     {
         // 1. Go to URL and sign in
-        dd((new Authenticate())->generateLoginUrl());
+        $url = (new Authenticate())->getLoginUrl();
 
         // 2. Copy the 'code' parameter from URL when you land at the 'Page Not Found' page
         $code = 'code from URL';
@@ -21,7 +21,7 @@ final class TeslaTest extends TestCase
 
         // 3. Start using API
         $tesla = new TeslaApi($token);
-        dd($tesla->list($token));
+        dd($tesla->products());
 
         $this->assertTrue(true);
     }

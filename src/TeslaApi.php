@@ -10,7 +10,7 @@ class TeslaApi
     {
     }
 
-    public function list()
+    public function products()
     {
         $response = (new Client())->request('GET', 'https://owner-api.teslamotors.com/api/1/products', [
             'http_errors' => false,
