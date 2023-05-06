@@ -34,8 +34,9 @@ With this token, you can access Tesla's API.
 #### Step 3 - Access the API
 
 ```php
-$tesla = new TeslaApi($token);
+$tesla = new Tesla($token);
 $products = $tesla->products();
+$vehicles = $tesla->vehicles();
 ```
 
 ### Testing
