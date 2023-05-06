@@ -4,7 +4,7 @@ namespace Kirilcvetkov\TeslaApi;
 
 use Illuminate\Support\ServiceProvider;
 
-class TeslaApiServiceProvider extends ServiceProvider
+class TeslaServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
