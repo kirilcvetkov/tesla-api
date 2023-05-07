@@ -16,6 +16,6 @@ class Products extends HttpApi
     {
         $response = $this->httpGet('/api/1/products');
 
-        return $this->hydrateResponse($response);
+        return $this->hydrateResponse($response, '');
     }
 }

@@ -27,7 +27,7 @@ final class ArrayHydratorTest extends TestCase
     {
         $response = new Response(200, $this->validContentType, $this->validJsonResponse);
 
-        $hydratedResponse = (new ArrayHydrator())->hydrate($response);
+        $hydratedResponse = (new ArrayHydrator())->hydrate($response, '');
 
         $this->assertIsArray($hydratedResponse);
         $this->assertEquals($this->testResponse, $hydratedResponse);
@@ -39,7 +39,7 @@ final class ArrayHydratorTest extends TestCase
 
         $this->expectException(HydrationException::class);
 
-        $hydratedResponse = (new ArrayHydrator())->hydrate($response);
+        $hydratedResponse = (new ArrayHydrator())->hydrate($response, '');
     }
 
     public function testHydrationExceptionJsonError()
@@ -48,6 +48,6 @@ final class ArrayHydratorTest extends TestCase
 
         $this->expectException(HydrationException::class);
 
-        $hydratedResponse = (new ArrayHydrator())->hydrate($response);
+        $hydratedResponse = (new ArrayHydrator())->hydrate($response, '');
     }
 }

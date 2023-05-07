@@ -16,7 +16,7 @@ class Vehicles extends HttpApi
     {
         $response = $this->httpGet('/api/1/vehicles');
 
-        return $this->hydrateResponse($response);
+        return $this->hydrateResponse($response, '');
     }
 
     /**
@@ -34,6 +34,6 @@ class Vehicles extends HttpApi
 
         $response = $this->httpGet(sprintf('/api/1/vehicles/%d', $id));
 
-        return $this->hydrateResponse($response);
+        return $this->hydrateResponse($response, '');
     }
 }

@@ -3,7 +3,10 @@
 namespace KirilCvetkov\TeslaApi;
 
 use GuzzleHttp\Client;
-use KirilCvetkov\TeslaApi\Model\User;
+use KirilCvetkov\TeslaApi\Model\BoolResponse;
+use KirilCvetkov\TeslaApi\Model\User\FeaturesResponse;
+use KirilCvetkov\TeslaApi\Model\User\MeResponse;
+use KirilCvetkov\TeslaApi\Model\User\VaultResponse;
 use KirilCvetkov\TeslaApi\Exception\HttpServerException;
 
 class Users extends HttpApi
@@ -17,7 +20,7 @@ class Users extends HttpApi
     {
         $response = $this->httpGet('/api/1/users/me');
 
-        return $this->hydrateResponse($response, User::class);
+        return $this->hydrateResponse($response, MeResponse::class);
     }
 
     /**
@@ -29,7 +32,7 @@ class Users extends HttpApi
     {
         $response = $this->httpGet('/api/1/users/vault_profile');
 
-        return $this->hydrateResponse($response);
+        return $this->hydrateResponse($response, VaultResponse::class);
     }
 
     /**
@@ -41,7 +44,7 @@ class Users extends HttpApi
     {
         $response = $this->httpGet('/api/1/users/feature_config');
 
-        return $this->hydrateResponse($response);
+        return $this->hydrateResponse($response, FeaturesResponse::class);
     }
 
     /**
@@ -61,6 +64,6 @@ class Users extends HttpApi
 
         $response = $this->httpPost('/api/1/users/keys', $payload);
 
-        return $this->hydrateResponse($response)->into(User::class);
+        return $this->hydrateResponse($response, BoolResponse::class);
     }
 }
