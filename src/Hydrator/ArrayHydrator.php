@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 
 final class ArrayHydrator implements Hydrator
 {
-    public function hydrate(ResponseInterface $response)
+    public function hydrate(ResponseInterface $response, string $class)
     {
         $body = $response->getBody()->__toString();
 

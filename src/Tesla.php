@@ -4,7 +4,7 @@ namespace KirilCvetkov\TeslaApi;
 
 use GuzzleHttp\Client;
 use KirilCvetkov\TeslaApi\Hydrator\Hydrator;
-use KirilCvetkov\TeslaApi\Hydrator\ArrayHydrator;
+use KirilCvetkov\TeslaApi\Hydrator\ModelHydrator;
 
 class Tesla
 {
@@ -14,12 +14,17 @@ class Tesla
     public function __construct(string $token)
     {
         $this->httpClient = new HttpClient($token);
-        $this->hydrator = new ArrayHydrator();
+        $this->hydrator = new ModelHydrator();
     }
 
     public function products()
     {
         return new Products($this->httpClient, $this->hydrator);
+    }
+
+    public function users()
+    {
+        return new Users($this->httpClient, $this->hydrator);
     }
 
     public function vehicles()

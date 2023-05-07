@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace KirilCvetkov\TeslaApi;
 
+use GuzzleHttp\Exception\ClientException;
 use KirilCvetkov\TeslaApi\Exception\HttpClientException;
 use KirilCvetkov\TeslaApi\Exception\HttpServerException;
 use KirilCvetkov\TeslaApi\Exception\UnknownErrorException;
@@ -46,7 +47,7 @@ abstract class HttpApi
      *
      * @throws \Exception
      */
-    protected function hydrateResponse(ResponseInterface $response)
+    protected function hydrateResponse(ResponseInterface $response, string $class)
     {
         if (null === $this->hydrator) {
             return $response;
@@ -56,7 +57,7 @@ abstract class HttpApi
             $this->handleErrors($response);
         }
 
-        return $this->hydrator->hydrate($response);
+        return $this->hydrator->hydrate($response, $class);
     }
 
     /**
@@ -107,7 +108,7 @@ abstract class HttpApi
 
         try {
             $response = $this->httpClient->getHttpClient()->request('GET', $path, $requestOptions);
-        } catch (Throable $e) {
+        } catch (ClientException $e) {
             throw new HttpServerException($e->getMessage(), $e->getCode(), $e);
         }
 
@@ -119,29 +120,14 @@ abstract class HttpApi
      *
      * @param string $path           Request path
      * @param array  $parameters     POST parameters
-     * @param array  $requestHeaders Request headers
+     * @param array  $requestOptions Request headers
      */
-    protected function httpPost(string $path, array $parameters = [], array $requestHeaders = []): ResponseInterface
-    {
-        return $this->httpPostRaw($path, $this->createRequestBody($parameters), $requestHeaders);
-    }
-
-    /**
-     * Send a POST request with raw data.
-     *
-     * @param  string                   $path           Request path
-     * @param  array|string             $body           Request body
-     * @param  array                    $requestHeaders Request headers
-     * @throws ClientExceptionInterface
-     */
-    protected function httpPostRaw(string $path, $body, array $requestHeaders = []): ResponseInterface
+    protected function httpPost(string $path, array $parameters = [], array $requestOptions = []): ResponseInterface
     {
         try {
-            $response = $this->httpClient->sendRequest(
-                $this->requestBuilder->create('POST', $path, $requestHeaders, $body)
-            );
-        } catch (Psr18\NetworkExceptionInterface $e) {
-            throw HttpServerException::networkError($e);
+            $response = $this->httpClient->getHttpClient()->request('POST', $path, $requestOptions);
+        } catch (ClientException $e) {
+            throw new HttpServerException($e->getMessage(), $e->getCode(), $e);
         }
 
         return $response;

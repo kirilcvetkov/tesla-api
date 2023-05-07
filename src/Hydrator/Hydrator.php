@@ -17,5 +17,5 @@ interface Hydrator
      *
      * @throws HydrationException
      */
-    public function hydrate(ResponseInterface $response);
+    public function hydrate(ResponseInterface $response, string $class);
 }
