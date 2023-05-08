@@ -6,7 +6,7 @@ namespace KirilCvetkov\TeslaApi\Model\User;
 
 use KirilCvetkov\TeslaApi\Model\AbstractApiResponse;
 
-class VaultResponse extends AbstractApiResponse
+final class Vault extends AbstractApiResponse
 {
     public readonly string $vault;
 

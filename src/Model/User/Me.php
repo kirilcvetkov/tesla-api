@@ -6,7 +6,7 @@ namespace KirilCvetkov\TeslaApi\Model\User;
 
 use KirilCvetkov\TeslaApi\Model\AbstractApiResponse;
 
-final class MeResponse extends AbstractApiResponse
+final class Me extends AbstractApiResponse
 {
     /**
      * @var string[]

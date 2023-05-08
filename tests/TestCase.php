@@ -20,6 +20,6 @@ abstract class TestCase extends BaseTestCase
         $handlerStack = HandlerStack::create($mock);
         $mockClient = new Client(['handler' => $handlerStack]);
 
-        return (new HttpClient('test'))->setHttpClient($mockClient);
+        return (new HttpClient('test'))->set($mockClient);
     }
 }

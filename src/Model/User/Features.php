@@ -6,7 +6,7 @@ namespace KirilCvetkov\TeslaApi\Model\User;
 
 use KirilCvetkov\TeslaApi\Model\AbstractApiResponse;
 
-class FeaturesResponse extends AbstractApiResponse
+final class Features extends AbstractApiResponse
 {
     public readonly bool $signalingEnabled;
     public readonly bool $subscribeConnectivity;

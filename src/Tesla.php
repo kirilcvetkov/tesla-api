@@ -8,13 +8,28 @@ use KirilCvetkov\TeslaApi\Hydrator\ModelHydrator;
 
 class Tesla
 {
-    private HttpClient $httpClient;
     private Hydrator $hydrator;
 
-    public function __construct(string $token)
+    /**
+     * @param HttpClient            $httpClient
+     * @param Hydrator|null         $hydrator
+     */
+    public function __construct(private HttpClient $httpClient, Hydrator|null $hydrator = null)
     {
-        $this->httpClient = new HttpClient($token);
-        $this->hydrator = new ModelHydrator();
+        $this->hydrator = $hydrator ?? new ModelHydrator();
+    }
+
+    /**
+     * @param  string       $token
+     * @param  string|null  $endpoint
+     * @return self
+     */
+    public static function create(string $token, string|null $endpoint = null): self
+    {
+        return new self(
+            new HttpClient(token: $token, endpoint: $endpoint),
+            new ModelHydrator()
+        );
     }
 
     public function products()

@@ -53,7 +53,7 @@ abstract class HttpApi
             return $response;
         }
 
-        if (!in_array($response->getStatusCode(), [200, 201, 202], true)) {
+        if (! in_array($response->getStatusCode(), [200, 201, 202], true)) {
             $this->handleErrors($response);
         }
 
@@ -97,18 +97,19 @@ abstract class HttpApi
      *
      * @param  string                   $path           Request path
      * @param  array                    $parameters     GET parameters
-     * @param  array                    $requestOptions Request Options
      * @throws ClientExceptionInterface
      */
-    protected function httpGet(string $path, array $parameters = [], array $requestOptions = []): ResponseInterface
+    protected function httpGet(string $path, array $parameters = []): ResponseInterface
     {
         if (count($parameters) > 0) {
             $path .= '?' . http_build_query($parameters);
         }
 
         try {
-            $response = $this->httpClient->getHttpClient()->request('GET', $path, $requestOptions);
+            $response = $this->httpClient->get()->request('GET', $path);
         } catch (ClientException $e) {
+            throw new HttpClientException($e->getMessage(), $e->getCode(), $e);
+        } catch (\Throable $e) {
             throw new HttpServerException($e->getMessage(), $e->getCode(), $e);
         }
 
@@ -120,81 +121,18 @@ abstract class HttpApi
      *
      * @param string $path           Request path
      * @param array  $parameters     POST parameters
-     * @param array  $requestOptions Request headers
      */
-    protected function httpPost(string $path, array $parameters = [], array $requestOptions = []): ResponseInterface
+    protected function httpPost(string $path, array $parameters = []): ResponseInterface
     {
         try {
-            $response = $this->httpClient->getHttpClient()->request('POST', $path, $requestOptions);
+            $response = $this->httpClient->get()
+                ->request('POST', $path, ['form_params' => $parameters]);
         } catch (ClientException $e) {
+            throw new HttpClientException($e->getMessage(), $e->getCode(), $e);
+        } catch (\Throable $e) {
             throw new HttpServerException($e->getMessage(), $e->getCode(), $e);
         }
 
         return $response;
-    }
-
-    /**
-     * Send a PUT request.
-     *
-     * @param  string                   $path           Request path
-     * @param  array                    $parameters     PUT parameters
-     * @param  array                    $requestHeaders Request headers
-     * @throws ClientExceptionInterface
-     */
-    protected function httpPut(string $path, array $parameters = [], array $requestHeaders = []): ResponseInterface
-    {
-        try {
-            $response = $this->httpClient->sendRequest(
-                $this->requestBuilder->create('PUT', $path, $requestHeaders, $this->createRequestBody($parameters))
-            );
-        } catch (Psr18\NetworkExceptionInterface $e) {
-            throw HttpServerException::networkError($e);
-        }
-
-        return $response;
-    }
-
-    /**
-     * Send a DELETE request.
-     *
-     * @param  string                   $path           Request path
-     * @param  array                    $parameters     DELETE parameters
-     * @param  array                    $requestHeaders Request headers
-     * @throws ClientExceptionInterface
-     */
-    protected function httpDelete(string $path, array $parameters = [], array $requestHeaders = []): ResponseInterface
-    {
-        try {
-            $response = $this->httpClient->sendRequest(
-                $this->requestBuilder->create('DELETE', $path, $requestHeaders, $this->createRequestBody($parameters))
-            );
-        } catch (Psr18\NetworkExceptionInterface $e) {
-            throw HttpServerException::networkError($e);
-        }
-
-        return $response;
-    }
-
-    /**
-     * Prepare a set of key-value-pairs to be encoded as multipart/form-data.
-     *
-     * @param array $parameters Request parameters
-     */
-    private function createRequestBody(array $parameters): array
-    {
-        $resources = [];
-        foreach ($parameters as $key => $values) {
-            if (!is_array($values)) {
-                $values = [$values];
-            }
-            foreach ($values as $value) {
-                $resources[] = [
-                    'name' => $key,
-                    'content' => $value,
-                ];
-            }
-        }
-
-        return $resources;
     }
 }

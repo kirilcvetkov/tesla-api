@@ -6,10 +6,10 @@ namespace KirilCvetkov\TeslaApi\Tests;
 
 use KirilCvetkov\TeslaApi\Hydrator\ModelHydrator;
 use KirilCvetkov\TeslaApi\Users;
-use KirilCvetkov\TeslaApi\Model\BoolResponse;
-use KirilCvetkov\TeslaApi\Model\User\MeResponse;
-use KirilCvetkov\TeslaApi\Model\User\FeaturesResponse;
-use KirilCvetkov\TeslaApi\Model\User\VaultResponse;
+use KirilCvetkov\TeslaApi\Model\BooleanResponse;
+use KirilCvetkov\TeslaApi\Model\User\Me;
+use KirilCvetkov\TeslaApi\Model\User\Features;
+use KirilCvetkov\TeslaApi\Model\User\Vault;
 
 final class UsersTest extends TestCase
 {
@@ -27,19 +27,19 @@ final class UsersTest extends TestCase
         $actualResponse = (new Users($this->getClient(['response' => $expectedItems]), new ModelHydrator()))
             ->me();
 
-        $this->isInstanceOf(MeResponse::class, $actualResponse);
+        $this->isInstanceOf(Me::class, $actualResponse);
         $this->assertEquals($expectedItems, $actualResponse->items);
     }
 
     public function testVault()
     {
-        $testVaultResponse = 'base64encoded';
-        $expectedResponse = ['response' => ['vault' => $testVaultResponse]];
+        $testVault = 'base64encoded';
+        $expectedResponse = ['response' => ['vault' => $testVault]];
         $actualResponse = (new Users($this->getClient($expectedResponse), new ModelHydrator()))
             ->vault();
 
-        $this->isInstanceOf(VaultResponse::class, $actualResponse);
-        $this->assertEquals($testVaultResponse, $actualResponse->vault);
+        $this->isInstanceOf(Vault::class, $actualResponse);
+        $this->assertEquals($testVault, $actualResponse->vault);
     }
 
     public function testFeatures()
@@ -58,7 +58,7 @@ final class UsersTest extends TestCase
         $actualResponse = (new Users($this->getClient($expectedResponse), new ModelHydrator()))
             ->features();
 
-        $this->isInstanceOf(FeaturesResponse::class, $actualResponse);
+        $this->isInstanceOf(Features::class, $actualResponse);
         $this->assertEquals($testSignalingEnabled, $actualResponse->signalingEnabled);
         $this->assertEquals($testSubscribeConnectivity, $actualResponse->subscribeConnectivity);
     }
@@ -69,7 +69,7 @@ final class UsersTest extends TestCase
         $actualResponse = (new Users($this->getClient(['response' => $expectedResponse]), new ModelHydrator()))
             ->keys(publicKey: 'test', name: 'test', model: 'test');
 
-        $this->isInstanceOf(BoolResponse::class, $actualResponse);
+        $this->isInstanceOf(BooleanResponse::class, $actualResponse);
         $this->assertEquals($expectedResponse, $actualResponse->response);
     }
 }

@@ -6,28 +6,32 @@ use GuzzleHttp\Client;
 
 class HttpClient
 {
-    private const BASE_URL = 'https://owner-api.teslamotors.com';
+    private readonly string $endpoint;
     private $debug = false;
-    private $httpClient;
+    private Client $httpClient;
 
-    public function __construct(private string $token, private int $timeout = 10)
-    {
+    public function __construct(
+        private string|null $token = null,
+        private int $timeout = 10,
+        string|null $endpoint = null,
+    ) {
+        $this->endpoint = $endpoint ?? 'https://owner-api.teslamotors.com';
     }
 
-    public function getHttpClient(): Client
+    public function get(): Client
     {
-        if (null === $this->httpClient) {
+        if (! isset($this->httpClient)) {
             $this->httpClient = new Client([
-                'base_uri' => self::BASE_URL,
+                'base_uri' => $this->endpoint,
                 'timeout'  => $this->timeout,
-                'headers' => ['Authorization' => 'Bearer ' . $this->token],
+                'headers' => $this->token ? ['Authorization' => 'Bearer ' . $this->token] : [],
             ]);
         }
 
         return $this->httpClient;
     }
 
-    public function setHttpClient(Client $httpClient): self
+    public function set(Client $httpClient): self
     {
         $this->httpClient = $httpClient;
 
