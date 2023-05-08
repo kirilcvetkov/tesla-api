@@ -8,21 +8,16 @@ use KirilCvetkov\TeslaApi\Model\AbstractApiResponse;
 
 final class Me extends AbstractApiResponse
 {
-    /**
-     * @var string[]
-     */
-    public readonly array $items;
-
-    /**
-     * @var int
-     */
-    public readonly int $totalCount;
+    public readonly string $email;
+    public readonly string $fullName;
+    public readonly string $profileImageUrl;
 
     public static function create(array $data): self
     {
         $model = new self();
-        $model->totalCount = count($data);
-        $model->items = $data['response'];
+        $model->email = $data['response']['email'];
+        $model->fullName = $data['response']['full_name'];
+        $model->profileImageUrl = $data['response']['profile_image_url'];
 
         return $model;
     }

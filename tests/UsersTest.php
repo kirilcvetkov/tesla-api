@@ -13,22 +13,26 @@ use KirilCvetkov\TeslaApi\Model\User\Vault;
 
 final class UsersTest extends TestCase
 {
-    private $responses = [
-        'me' => [
-            'email' => 'owner@email.com',
-            'full_name' => 'Tesla Owner',
-            'profile_image_url' => 'https://vehicle-files.prd.usw2.vn.cloud.tesla.com/profile_images/profile.jpg',
-        ],
-    ];
-
     public function testMe()
     {
-        $expectedItems = [$this->responses['me']];
-        $actualResponse = (new Users($this->getClient(['response' => $expectedItems]), new ModelHydrator()))
+        $email = 'owner@email.com';
+        $fullName = 'Tesla Owner';
+        $profileImageUrl = 'https://vehicle-files.prd.usw2.vn.cloud.tesla.com/profile_images/profile.jpg';
+        $expectedResponse = [
+            'response' => [
+                'email' => $email,
+                'full_name' => $fullName,
+                'profile_image_url' => $profileImageUrl,
+            ]
+        ];
+
+        $actualResponse = (new Users($this->getClient($expectedResponse), new ModelHydrator()))
             ->me();
 
         $this->isInstanceOf(Me::class, $actualResponse);
-        $this->assertEquals($expectedItems, $actualResponse->items);
+        $this->assertEquals($email, $actualResponse->email);
+        $this->assertEquals($fullName, $actualResponse->fullName);
+        $this->assertEquals($profileImageUrl, $actualResponse->profileImageUrl);
     }
 
     public function testVault()
