@@ -8,10 +8,8 @@ use GuzzleHttp\Exception\ClientException;
 use KirilCvetkov\TeslaApi\Exception\HttpClientException;
 use KirilCvetkov\TeslaApi\Exception\HttpServerException;
 use KirilCvetkov\TeslaApi\Exception\UnknownErrorException;
+use KirilCvetkov\TeslaApi\HttpClient;
 use KirilCvetkov\TeslaApi\Hydrator\Hydrator;
-use Psr\Http\Client as Psr18;
-use Psr\Http\Client\ClientExceptionInterface;
-use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -22,9 +20,9 @@ abstract class HttpApi
     /**
      * The HTTP client.
      *
-     * @var ClientInterface
+     * @var HttpClient
      */
-    protected $httpClient;
+    protected HttpClient $httpClient;
 
     /**
      * @var Hydrator|null
@@ -32,11 +30,11 @@ abstract class HttpApi
     protected $hydrator;
 
     /**
-     * @param ClientInterface $httpClient
+     * @param HttpClient $httpClient
      * @param RequestBuilder  $requestBuilder
      * @param Hydrator        $hydrator
      */
-    public function __construct($httpClient, Hydrator $hydrator)
+    public function __construct(HttpClient $httpClient, Hydrator $hydrator)
     {
         $this->httpClient = $httpClient;
         $this->hydrator = $hydrator;
@@ -97,7 +95,8 @@ abstract class HttpApi
      *
      * @param  string                   $path           Request path
      * @param  array                    $parameters     GET parameters
-     * @throws ClientExceptionInterface
+     * @throws HttpClientException
+     * @throws HttpServerException
      */
     protected function httpGet(string $path, array $parameters = []): ResponseInterface
     {

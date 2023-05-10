@@ -2,8 +2,6 @@
 
 namespace KirilCvetkov\TeslaApi;
 
-use GuzzleHttp\Client;
-
 class Products extends HttpApi
 {
     /**

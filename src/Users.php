@@ -2,12 +2,10 @@
 
 namespace KirilCvetkov\TeslaApi;
 
-use GuzzleHttp\Client;
 use KirilCvetkov\TeslaApi\Model\BooleanResponse;
 use KirilCvetkov\TeslaApi\Model\User\Features;
 use KirilCvetkov\TeslaApi\Model\User\Me;
 use KirilCvetkov\TeslaApi\Model\User\Vault;
-use KirilCvetkov\TeslaApi\Exception\HttpServerException;
 
 class Users extends HttpApi
 {

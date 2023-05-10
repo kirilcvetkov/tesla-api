@@ -2,8 +2,6 @@
 
 namespace KirilCvetkov\TeslaApi;
 
-use GuzzleHttp\Client;
-
 class Vehicles extends HttpApi
 {
     /**

@@ -2,7 +2,6 @@
 
 namespace KirilCvetkov\TeslaApi;
 
-use GuzzleHttp\Client;
 use KirilCvetkov\TeslaApi\Hydrator\Hydrator;
 use KirilCvetkov\TeslaApi\Hydrator\ModelHydrator;
 
