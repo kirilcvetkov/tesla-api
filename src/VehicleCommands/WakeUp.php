@@ -1,11 +1,15 @@
 <?php
 
-namespace KirilCvetkov\TeslaApi;
+namespace KirilCvetkov\TeslaApi\VehicleCommands;
+
+use KirilCvetkov\TeslaApi\Assert;
+use KirilCvetkov\TeslaApi\HttpApi;
+use KirilCvetkov\TeslaApi\Model\Vehicle;
 
 class WakeUp extends HttpApi
 {
     /**
-     * Returns a single vehicle.
+     * Sends a Wake Up command to vehicle.
      *
      * @param int $id Vehicle ID
      *
@@ -19,6 +23,6 @@ class WakeUp extends HttpApi
 
         $response = $this->httpPost(sprintf('/api/1/vehicles/%d/wake_up', $id));
 
-        return $this->hydrateResponse($response, '');
+        return $this->hydrateResponse($response, Vehicle::class);
     }
 }

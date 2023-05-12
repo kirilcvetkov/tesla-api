@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace KirilCvetkov\TeslaApi\Tests;
+namespace KirilCvetkov\TeslaApi\Tests\VehicleCommands;
 
 use KirilCvetkov\TeslaApi\Hydrator\ModelHydrator;
-use KirilCvetkov\TeslaApi\Model\IndexResponse;
 use KirilCvetkov\TeslaApi\Model\Vehicle;
-use KirilCvetkov\TeslaApi\Vehicles;
+use KirilCvetkov\TeslaApi\VehicleCommands\WakeUp;
+use KirilCvetkov\TeslaApi\Tests\TestCase;
 
-final class VehiclesTest extends TestCase
+final class WakeUpTest extends TestCase
 {
     private $testVehicle = [
         'id' => 12345678901234567,
+        'user_id' => 12345,
         'vehicle_id' => 1234567890,
         'vin' => '5YJSA11111111111',
         'display_name' => 'Nikola 2.0',
@@ -27,25 +28,15 @@ final class VehiclesTest extends TestCase
         'backseat_token_updated_at' => null,
     ];
 
-    public function testIndex()
-    {
-        $expectedResponse = ['response' => [$this->testVehicle], 'count' => 1];
-        $actualResponse = (new Vehicles($this->getClient($expectedResponse), new ModelHydrator()))
-            ->index();
-
-        $this->isInstanceOf(IndexResponse::class, $actualResponse);
-        $this->assertEquals($expectedResponse['response'], $actualResponse->items);
-        $this->assertEquals($expectedResponse['count'], $actualResponse->totalCount);
-    }
-
-    public function testShow()
+    public function testSend()
     {
         $expectedResponse = ['response' => $this->testVehicle];
-        $actualResponse = (new Vehicles($this->getClient($expectedResponse), new ModelHydrator()))
-            ->show($this->testVehicle['id']);
+        $actualResponse = (new WakeUp($this->getClient($expectedResponse), new ModelHydrator()))
+            ->send($this->testVehicle['vehicle_id']);
 
         $this->isInstanceOf(Vehicle::class, $actualResponse);
         $this->assertEquals($expectedResponse['response']['id'], $actualResponse->id);
+        $this->assertEquals($expectedResponse['response']['user_id'], $actualResponse->userId);
         $this->assertEquals($expectedResponse['response']['vehicle_id'], $actualResponse->vehicleId);
         $this->assertEquals($expectedResponse['response']['vin'], $actualResponse->vin);
         $this->assertEquals($expectedResponse['response']['display_name'], $actualResponse->displayName);

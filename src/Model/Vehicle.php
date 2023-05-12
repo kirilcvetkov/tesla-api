@@ -7,6 +7,7 @@ namespace KirilCvetkov\TeslaApi\Model;
 class Vehicle extends AbstractApiResponse
 {
     public readonly int $id;
+    public readonly int $userId;
     public readonly int $vehicleId;
     public readonly string $vin;
     public readonly string $displayName;
@@ -26,6 +27,7 @@ class Vehicle extends AbstractApiResponse
 
         $model = new self();
         $model->id = $data['id'] ?? 0;
+        $model->userId = $data['user_id'] ?? 0;
         $model->vehicleId = $data['vehicle_id'] ?? 0;
         $model->vin = $data['vin'] ?? '';
         $model->displayName = $data['display_name'] ?? '';

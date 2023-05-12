@@ -7,7 +7,7 @@ namespace Tests\Hydrator;
 use GuzzleHttp\Psr7\Response;
 use KirilCvetkov\TeslaApi\Hydrator\ArrayHydrator;
 use KirilCvetkov\TeslaApi\Exception\HydrationException;
-use PHPUnit\Framework\TestCase;
+use KirilCvetkov\TeslaApi\Tests\TestCase;
 
 final class ArrayHydratorTest extends TestCase
 {
