@@ -2,6 +2,9 @@
 
 namespace KirilCvetkov\TeslaApi;
 
+use KirilCvetkov\TeslaApi\Model\IndexResponse;
+use KirilCvetkov\TeslaApi\Model\Vehicle;
+
 class Vehicles extends HttpApi
 {
     /**
@@ -14,7 +17,7 @@ class Vehicles extends HttpApi
     {
         $response = $this->httpGet('/api/1/vehicles');
 
-        return $this->hydrateResponse($response, '');
+        return $this->hydrateResponse($response, IndexResponse::class);
     }
 
     /**
@@ -32,6 +35,6 @@ class Vehicles extends HttpApi
 
         $response = $this->httpGet(sprintf('/api/1/vehicles/%d', $id));
 
-        return $this->hydrateResponse($response, '');
+        return $this->hydrateResponse($response, Vehicle::class);
     }
 }
