@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace KirilCvetkov\TeslaApi\Tests;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Exception\RequestException;
-use KirilCvetkov\TeslaApi\Products;
 use KirilCvetkov\TeslaApi\HttpClient;
-use KirilCvetkov\TeslaApi\Hydrator\ArrayHydrator;
+use KirilCvetkov\TeslaApi\Hydrator\ModelHydrator;
+use KirilCvetkov\TeslaApi\Model\IndexResponse;
+use KirilCvetkov\TeslaApi\Products;
 
 final class ProductsTest extends TestCase
 {
@@ -38,10 +39,11 @@ final class ProductsTest extends TestCase
     public function testIndex()
     {
         $expectedResponse = ['response' => [[$this->testProduct]], 'count' => 1];
-        $actualResponse = (new Products($this->getClient($expectedResponse), new ArrayHydrator()))
+        $actualResponse = (new Products($this->getClient($expectedResponse), new ModelHydrator()))
             ->index();
 
-        $this->assertIsArray($actualResponse);
-        $this->assertEquals($expectedResponse, $actualResponse);
+        $this->assertInstanceOf(IndexResponse::class, $actualResponse);
+        $this->assertEquals($expectedResponse['response'], $actualResponse->items);
+        $this->assertEquals($expectedResponse['count'], $actualResponse->totalCount);
     }
 }

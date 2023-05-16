@@ -11,6 +11,8 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
+    public int $testVehicleId = 1;
+
     public function getClient(array $expectedResponse)
     {
         $mock = new MockHandler([

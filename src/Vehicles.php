@@ -11,7 +11,6 @@ class Vehicles extends HttpApi
      * Returns a list of domains on the account.
      *
      * @return array[]
-     * @throws ClientExceptionInterface
      */
     public function index()
     {
@@ -26,7 +25,6 @@ class Vehicles extends HttpApi
      * @param int $id Vehicle ID
      *
      * @return string[]
-     * @throws ClientExceptionInterface
      */
     public function show(int $id)
     {

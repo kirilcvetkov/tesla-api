@@ -4,9 +4,9 @@ namespace KirilCvetkov\TeslaApi\VehicleCommands;
 
 use KirilCvetkov\TeslaApi\Assert;
 use KirilCvetkov\TeslaApi\HttpApi;
-use KirilCvetkov\TeslaApi\Model\Vehicle;
+use KirilCvetkov\TeslaApi\Model\BooleanResponse;
 
-class ChargePortDoor extends HttpApi
+class ChargePort extends HttpApi
 {
     /**
      * Sends an Open Charge Port command to vehicle.
@@ -14,7 +14,6 @@ class ChargePortDoor extends HttpApi
      * @param int $id Vehicle ID
      *
      * @return string[]
-     * @throws ClientExceptionInterface
      */
     public function open(int $id)
     {
@@ -23,7 +22,7 @@ class ChargePortDoor extends HttpApi
 
         $response = $this->httpPost(sprintf('/api/1/vehicles/%d/command/charge_port_door_open', $id));
 
-        return $this->hydrateResponse($response, Vehicle::class);
+        return $this->hydrateResponse($response, BooleanResponse::class);
     }
 
     /**
@@ -32,7 +31,6 @@ class ChargePortDoor extends HttpApi
      * @param int $id Vehicle ID
      *
      * @return string[]
-     * @throws ClientExceptionInterface
      */
     public function close(int $id)
     {
@@ -41,6 +39,6 @@ class ChargePortDoor extends HttpApi
 
         $response = $this->httpPost(sprintf('/api/1/vehicles/%d/command/charge_port_door_close', $id));
 
-        return $this->hydrateResponse($response, Vehicle::class);
+        return $this->hydrateResponse($response, BooleanResponse::class);
     }
 }

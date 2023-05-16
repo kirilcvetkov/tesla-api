@@ -8,7 +8,6 @@ class TripPlanner extends HttpApi
      * Request a trip plan based on the car model, origin, destination and remaining charge.
      *
      * @return array
-     * @throws ClientExceptionInterface
      */
     public function create(
         string $carTrim,

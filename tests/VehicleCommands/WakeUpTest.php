@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace KirilCvetkov\TeslaApi\Tests\VehicleCommands;
 
+use KirilCvetkov\TeslaApi\Exception\InvalidArgumentException;
 use KirilCvetkov\TeslaApi\Hydrator\ModelHydrator;
 use KirilCvetkov\TeslaApi\Model\Vehicle;
 use KirilCvetkov\TeslaApi\VehicleCommands\WakeUp;
 use KirilCvetkov\TeslaApi\Tests\TestCase;
 
-final class WakeUpTest extends TestCase
+final class WakeupTest extends TestCase
 {
     private $testVehicle = [
         'id' => 12345678901234567,
@@ -49,5 +50,15 @@ final class WakeUpTest extends TestCase
         $this->assertEquals($expectedResponse['response']['api_version'], $actualResponse->apiVersion);
         $this->assertEquals($expectedResponse['response']['backseat_token'], $actualResponse->backseatToken);
         $this->assertEquals($expectedResponse['response']['backseat_token_updated_at'], $actualResponse->backseatTokenUpdatedAt);
+    }
+
+    public function testSendInvalidVehicleId()
+    {
+        $invalidVehicleId = 0;
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $actualResponse = (new WakeUp($this->getClient(['response' => $this->testVehicle]), new ModelHydrator()))
+            ->send($invalidVehicleId);
     }
 }
