@@ -27,41 +27,7 @@ class Controls extends HttpApi
     }
 
     /**
-     * Sends a Door Unlock command to vehicle.
-     *
-     * @param int $id Vehicle ID
-     *
-     * @return string[]
-     * @throws ClientExceptionInterface
-     */
-    public function doorUnlock(int $id)
-    {
-        Assert::greaterThan($id, 0, 'Vehicle ID must be greater than zero.');
-
-        $response = $this->httpPost(sprintf('/api/1/vehicles/%d/command/door_unlock', $id));
-
-        return $this->hydrateResponse($response, Vehicle::class);
-    }
-
-    /**
-     * Sends a Door Unlock command to vehicle.
-     *
-     * @param int $id Vehicle ID
-     *
-     * @return string[]
-     * @throws ClientExceptionInterface
-     */
-    public function doorLock(int $id)
-    {
-        Assert::greaterThan($id, 0, 'Vehicle ID must be greater than zero.');
-
-        $response = $this->httpPost(sprintf('/api/1/vehicles/%d/command/door_lock', $id));
-
-        return $this->hydrateResponse($response, Vehicle::class);
-    }
-
-    /**
-     * Sends a Door Unlock command to vehicle.
+     * Sends a Honk Horn command to vehicle.
      *
      * @param int $id Vehicle ID
      *
@@ -87,7 +53,7 @@ class Controls extends HttpApi
      * @return string[]
      * @throws ClientExceptionInterface
      */
-    public function set(int $id, string $state, ?int $percent = null)
+    public function setSunroof(int $id, string $state, ?int $percent = null)
     {
         Assert::greaterThan($id, 0, 'Vehicle ID must be greater than zero.');
         Assert::regex($state, '/open|closed|comfort|vent|move/', 'State allows only open, closed, comfort, or vent.');
@@ -194,5 +160,4 @@ class Controls extends HttpApi
 
         return $this->hydrateResponse($response, Vehicle::class);
     }
-
 }

@@ -9,7 +9,7 @@ use KirilCvetkov\TeslaApi\Model\Vehicle;
 class AutoConditioning extends HttpApi
 {
     /**
-     * Sends a Door Unlock command to vehicle.
+     * Sends a Start HVAC System command to vehicle.
      *
      * @param int $id Vehicle ID
      *
@@ -27,7 +27,7 @@ class AutoConditioning extends HttpApi
     }
 
     /**
-     * Sends a Door Unlock command to vehicle.
+     * Sends a Stop HVAC System command to vehicle.
      *
      * @param int $id Vehicle ID
      *
