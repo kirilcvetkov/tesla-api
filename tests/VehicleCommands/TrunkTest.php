@@ -15,7 +15,7 @@ final class TrunkTest extends TestCase
     {
         $expectedResponse = true;
         $actualResponse = (new Trunk($this->getClient(['response' => $expectedResponse]), new ModelHydrator()))
-            ->actuate($this->testVehicleId);
+            ->actuate($this->testVehicleId, Trunk::REAR);
 
         $this->isInstanceOf(BooleanResponse::class, $actualResponse);
         $this->assertEquals($expectedResponse, $actualResponse->response);
