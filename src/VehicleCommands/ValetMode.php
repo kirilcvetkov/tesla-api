@@ -12,6 +12,7 @@ class ValetMode extends HttpApi
      * Sends an Set Valet Mode command to vehicle.
      *
      * @param int $id Vehicle ID
+     * @param bool $on On/Off command
      * @param string $password Account password
      *
      * @return string[]
