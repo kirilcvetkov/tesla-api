@@ -13,8 +13,8 @@ composer require kirilcvetkov/tesla-api
 ## Usage
 
 #### Step 1 - Get a single-use Token
-Generate a single-use token by authenticating yourself with the Tesla's auth page using your Tesla account credentials.<br>
-This will be a direct connection to Tesla. After logging in, you'll arrive at "Page Not Found", which is to be expected.<br>
+Generate a single-use token by authenticating yourself with the Tesla's auth page using your Tesla account credentials. 
+This will be a direct connection to Tesla. After logging in, you'll arrive at "Page Not Found", which is to be expected. 
 Look at the URL of this page and copy the `code` parameter. This is your single-use token.
 
 Here's how to get a link to Tesla's auth page:
