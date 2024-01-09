@@ -17,7 +17,7 @@ class ValetMode extends HttpApi
      *
      * @return string[]
      */
-    public function set(int $id, bool $on, string $password)
+    public function set(int $id, string $on, string $password)
     {
         Assert::greaterThan($id, 0, 'Vehicle ID must be greater than zero.');
 

@@ -12,21 +12,32 @@ composer require kirilcvetkov/tesla-api
 
 ## Usage
 
-#### Step 1 - Get the Code
-Generate a `code` value by authenticating yourself with the Tesla auth service using your Tesla account credentials.<br>
-You can get the URL using this code snippet:
+#### Step 1 - Get a single-use Token
+Generate a single-use token by authenticating yourself with the Tesla's auth page using your Tesla account credentials.<br>
+This will be a direct connection to Tesla. After logging in, you'll arrive at "Page Not Found", which is to be expected.<br>
+Look at the URL of this page and copy the `code` parameter. This is your single-use token.
+
+Here's how to get a link to Tesla's auth page:
 ```php
+use KirilCvetkov\TeslaApi\Authenticate;
+
 $url = (new Authenticate())->getLoginUrl();
+
+echo '<a href="' . $url . '" target="_blank">Log into Tesla</a>';
 ```
-Which returns rougly the same URL: <a href="https://auth.tesla.com/oauth2/v3/authorize?client_id=ownerapi&code_challenge_method=S256&redirect_uri=https%3A%2F%2Fauth.tesla.com%2Fvoid%2Fcallback&locale=en&prompt=login&response_type=code&scope=email&state=123" target="_blank">auth.tesla.com</a>
+The URL should look someything like this: `https://auth.tesla.com/void/callback?locale=en-US&code=NA_code_123&state=zzz&issuer=https%3A%2F%2Fauth.tesla.com%2Foauth2%2Fv3`
 
 #### Step 2 - swap the Code for a Token
-After using your Tesla credentials, you'll arrive at a "Page Not Found" page, which is to be expected.<br>
-From this URL, copy the `code` parameter and swap it for a more permanent token:
+Then use its value and retrieve a long-lasting token:
 
 ```php
-$code = '63729ba81e9d8d8a8421aa27e3138389f0c4cbf8eccf33c55020a851f4a0';
-$token = (new Authenticate())->getToken($code);
+use KirilCvetkov\TeslaApi\Authenticate;
+
+$code = 'NA_27fbe6f9b10397d9b0f328c3ac2639940bb1eadbfcb2f62a75d6291d9220';
+$accessToken = Authenticate::create()->getToken($code);
+
+echo '<pre>';
+var_export($accessToken);
 ```
 
 With this token, you can access Tesla's API.
@@ -34,9 +45,17 @@ With this token, you can access Tesla's API.
 #### Step 3 - Access the API
 
 ```php
-$tesla = new Tesla($token);
-$products = $tesla->products();
-$vehicles = $tesla->vehicles();
+use KirilCvetkov\TeslaApi\Tesla;
+
+$tesla = Tesla::create($accessToken); // $accessToken comes from the previous example
+
+$products = $tesla->products()->index();
+echo '<pre>Product count ' . $products->totalCount . '<br>Items <br>';
+var_export($products->items);
+
+$vehicles = $tesla->vehicles()->index();
+echo '<hr>Vehicle count ' . $vehicles->totalCount . '<br>Items <br>';
+var_export($vehicles->items);
 ```
 
 ### Testing
