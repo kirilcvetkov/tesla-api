@@ -21,19 +21,19 @@ Here's how to get a link to Tesla's auth page:
 ```php
 use KirilCvetkov\TeslaApi\Authenticate;
 
-$url = (new Authenticate())->getLoginUrl();
+$url = Authenticate::create()->getLoginUrl();
 
 echo '<a href="' . $url . '" target="_blank">Log into Tesla</a>';
 ```
-The URL should look someything like this: `https://auth.tesla.com/void/callback?locale=en-US&code=NA_code_123&state=zzz&issuer=https%3A%2F%2Fauth.tesla.com%2Foauth2%2Fv3`
+The URL of the "Page Not Found" page should look someything like this: `https://auth.tesla.com/void/callback?locale=en-US&code=NA_code_123&state=zzz&issuer=https%3A%2F%2Fauth.tesla.com%2Foauth2%2Fv3`
 
-#### Step 2 - swap the Code for a Token
-Then use its value and retrieve a long-lasting token:
+#### Step 2 - swap the single-use Token for a long-term Token
+Use the value of the `code` parameter to retrieve a long-term token:
 
 ```php
 use KirilCvetkov\TeslaApi\Authenticate;
 
-$code = 'NA_27fbe6f9b10397d9b0f328c3ac2639940bb1eadbfcb2f62a75d6291d9220';
+$code = 'NA_code_123';
 $accessToken = Authenticate::create()->getToken($code);
 
 echo '<pre>';
@@ -47,7 +47,7 @@ With this token, you can access Tesla's API.
 ```php
 use KirilCvetkov\TeslaApi\Tesla;
 
-$tesla = Tesla::create($accessToken); // $accessToken comes from the previous example
+$tesla = Tesla::create($accessToken); // from the previous example
 
 $products = $tesla->products()->index();
 echo '<pre>Product count ' . $products->totalCount . '<br>Items <br>';

@@ -33,12 +33,12 @@ class Authenticate extends HttpApi
             ]);
     }
 
-    public function getToken(string $code)
+    public function getToken(string $singleUseToken)
     {
         $parameters = [
             'grant_type' => 'authorization_code',
             'client_id' => 'ownerapi',
-            'code' => $code,
+            'code' => $singleUseToken,
             'code_verifier' => $this->generateRandomString(86),
             'redirect_uri' => 'https://auth.tesla.com/void/callback',
         ];
