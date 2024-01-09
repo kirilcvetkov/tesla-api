@@ -33,8 +33,8 @@ Use the value of the `code` parameter to retrieve a long-term token:
 ```php
 use KirilCvetkov\TeslaApi\Authenticate;
 
-$code = 'NA_code_123';
-$accessToken = Authenticate::create()->getToken($code);
+$singleUseToken = 'NA_code_123';
+$accessToken = Authenticate::create()->getToken($singleUseToken);
 
 echo '<pre>';
 var_export($accessToken);
@@ -47,7 +47,7 @@ With this token, you can access Tesla's API.
 ```php
 use KirilCvetkov\TeslaApi\Tesla;
 
-$tesla = Tesla::create($accessToken); // from the previous example
+$tesla = Tesla::create($accessToken); // $accessToken comes from the previous example
 
 $products = $tesla->products()->index();
 echo '<pre>Product count ' . $products->totalCount . '<br>Items <br>';
