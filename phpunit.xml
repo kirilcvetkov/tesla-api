@@ -8,7 +8,6 @@
     failOnWarning="true"
     colors="true"
     cacheDirectory=".phpunit.cache"
-    printerClass="Sempro\PHPUnitPrettyPrinter\PrettyPrinterForPhpUnit"
     beStrictAboutCoverageMetadata="true">
   <testsuites>
     <testsuite name="default">

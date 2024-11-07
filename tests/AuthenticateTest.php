@@ -18,7 +18,7 @@ final class AuthenticateTest extends TestCase
         // dd($url);
 
         // // 2. Copy the 'code' parameter from URL when you land at the 'Page Not Found' page
-        // $code = '165eaa4487266ee74cca7edab103f7d94c6eb656ce15de3d29c650260cf1';
+        // $code = 'NA_8a33481fe5e34d1a3cf4e9865e35579a23c2d7826621d764194d21209c8d';
         // $tokenModel = $authenticate->getToken($code);
         // dd($tokenModel->accessToken);
 

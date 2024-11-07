@@ -36,6 +36,7 @@ class Authenticate extends HttpApi
     public function getToken(string $singleUseToken)
     {
         $parameters = [
+            'audience' => 'https://fleet-api.prd.na.vn.cloud.tesla.com',
             'grant_type' => 'authorization_code',
             'client_id' => 'ownerapi',
             'code' => $singleUseToken,
